@@ -4,6 +4,7 @@ import io
 import base64
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
+import os
 import smtplib
 from email.message import EmailMessage
 
@@ -81,8 +82,8 @@ if st.session_state.get("confirmed", False):
             template = Image.open(template_path).convert("RGBA")
             draw = ImageDraw.Draw(template)
             # フォント設定
-            font_path = "NotoSansTC-SemiBold.ttf"
-            font = ImageFont.truetype(font_path, 50)
+            FONT_PATH = os.path.join("fonts", "NotoSansCJKjp-SemiBold.ttf")
+            font = ImageFont.truetype(FONT_PATH, 50)
 
             # 番号描画
             y_start = 408
@@ -101,7 +102,7 @@ if st.session_state.get("confirmed", False):
                 draw.text((x_name, y_pos), f" {name}", font=font, fill="#f0edf0")
             
             template.save(output_path)
-            st.image(output_path, caption="Starting11IMG", use_column_width=True)
+            st.image(output_path, caption="Starting11IMG", use_container_width=True)
             st.success(f"Complete 画像生成完了: {output_path}")
 
             #メール送信を追加
